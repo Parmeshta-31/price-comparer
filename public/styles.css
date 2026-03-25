@@ -1,0 +1,33 @@
+body {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+.search-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding-top: 10vh;
+}
+
+.card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.024s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.border-blinkit {
+    border-top: 5px solid #f8cb46 !important;
+}
+
+.border-zepto {
+    border-top: 5px solid #ff0055 !important;
+}
+
+.border-instamart {
+    border-top: 5px solid #fc8019 !important;
+}

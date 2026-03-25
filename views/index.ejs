@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Compare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container search-container text-center">
+        <h1 class="display-3 fw-bold mb-3">QUICK COMPARE</h1>
+        <p class="text-secondary mb-4 fs-5">A simple page to quickly compare your product prices across Blinkit, Zepto, and Swiggy Instamart</p>
+
+        <form action="/search" method="POST" class="w-100">
+            <div class="input-group input-group-lg mb-5 shadow-sm">
+                <input type="search" name="search" class="form-control border-secondary" placeholder="Search for an item (e.g., Amul Butter)..." aria-label="Search" required>
+                <button class="btn btn-primary px-5" type="submit">Compare</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container pb-5">
+        <% if (locals.product) { %>
+            <h4 class="text-center mb-5 fs-3">Best prices for: <span class="text-info"><%= product.name %></span></h4>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-blinkit text-dark">
+                        <div class="card-body text-center p-5">
+                            <h4 class="text-warning fw-bold mb-4">Blinkit</h4>
+                            <h1 class="display-4 fw-bold mb-0">₹<%= product.blinkitPrice %></h1>
+                            <p class="text-secondary mt-3 fs-6"><small>Live Data</small></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-zepto text-dark">
+                        <div class="card-body text-center p-5">
+                            <h4 class="fw-bold mb-4" style="color: #ff0055;">Zepto</h4>
+                            <h1 class="display-4 fw-bold mb-0">₹<%= product.zeptoPrice %></h1>
+                            <p class="text-secondary mt-3 fs-6"><small>Estimated (-5%)</small></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-instamart text-dark">
+                        <div class="card-body text-center p-5">
+                            <h4 class="fw-bold mb-4" style="color: #fc8019;">Instamart</h4>
+                            <h1 class="display-4 fw-bold mb-0">₹<%= product.instamartPrice %></h1>
+                            <p class="text-secondary mt-3 fs-6"><small>Estimated (+5%)</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
