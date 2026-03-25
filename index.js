@@ -22,7 +22,11 @@ app.post("/", async (req, res) => {
             name: scrapedData.name,
             blinkitPrice: scrapedData.price,
             zeptoPrice: estimatedPrices.zeptoPrice, 
-            instamartPrice: estimatedPrices.instamartPrice
+            instamartPrice: estimatedPrices.instamartPrice,
+            imageUrl: scrapedData.imageUrl,
+            blinkitLink: scrapedData.productLink,
+            zeptoLink: "https://zeptonow.com",
+            instamartLink: "https://instamart.swiggy.com"
         };
         res.render("index.ejs", { product: finalProduct });
     } 

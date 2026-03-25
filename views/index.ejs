@@ -29,30 +29,42 @@
             <div class="row g-4 justify-content-center">
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-blinkit text-dark">
+                        <% if (product.imageUrl) { %>
+                            <img src="<%= product.imageUrl %>" class="card-img-top p-4" alt="Product Image" style="height: 220px; object-fit: contain;">
+                        <% } %>
                         <div class="card-body text-center p-5">
                             <h4 class="text-warning fw-bold mb-4">Blinkit</h4>
                             <h1 class="display-4 fw-bold mb-0">₹<%= product.blinkitPrice %></h1>
                             <p class="text-secondary mt-3 fs-6"><small>Live Data</small></p>
+                            <a href="<%= product.blinkitLink %>" target="_blank" class="btn btn-outline-warning mt-3 w-100 fw-bold">Buy on Blinkit</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-zepto text-dark">
+                        <% if (product.imageUrl) { %>
+                            <img src="<%= product.imageUrl %>" class="card-img-top p-4" alt="Product Image" style="height: 220px; object-fit: contain;">
+                        <% } %>
                         <div class="card-body text-center p-5">
                             <h4 class="fw-bold mb-4" style="color: #ff0055;">Zepto</h4>
                             <h1 class="display-4 fw-bold mb-0">₹<%= product.zeptoPrice %></h1>
-                            <p class="text-secondary mt-3 fs-6"><small>Estimated (-5%)</small></p>
+                            <p class="text-secondary mt-3 fs-6"><small>Estimated</small></p>
+                            <a href="<%= product.zeptoLink %>" target="_blank" class="btn btn-outline-warning mt-3 w-100 fw-bold">Buy on Zepto</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-instamart text-dark">
+                        <% if (product.imageUrl) { %>
+                            <img src="<%= product.imageUrl %>" class="card-img-top p-4" alt="Product Image" style="height: 220px; object-fit: contain;">
+                        <% } %>
                         <div class="card-body text-center p-5">
                             <h4 class="fw-bold mb-4" style="color: #fc8019;">Instamart</h4>
                             <h1 class="display-4 fw-bold mb-0">₹<%= product.instamartPrice %></h1>
-                            <p class="text-secondary mt-3 fs-6"><small>Estimated (+5%)</small></p>
+                            <p class="text-secondary mt-3 fs-6"><small>Estimated</small></p>
+                            <a href="<%= product.instamartLink %>" target="_blank" class="btn btn-outline-warning mt-3 w-100 fw-bold">Buy on Instamart</a>
                         </div>
                     </div>
                 </div>

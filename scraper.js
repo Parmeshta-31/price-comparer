@@ -17,19 +17,27 @@ export async function scrapeBlinkit(searchQuery) {
         await page.waitForSelector('::-p-text(₹)', { timeout: 5000 });
 
         const productData = await page.evaluate(() => {
-            // selector for product names
-            const titleElements = document.querySelectorAll('.tw-line-clamp-2');
-            const nameEl = titleElements[1];
-
-            // selector for filtering the price
+            // find price, select the first one using .find which has rupee symbol
             const allPriceElements = Array.from(document.querySelectorAll('.tw-text-200.tw-font-semibold'));
             const priceEl = allPriceElements.find(el => el.innerText.includes('₹'));
 
-            if (!nameEl || !priceEl) return null;
+            if (!priceEl) return null;
+
+            // Climb up the HTML tree to find the main product card, while loop acts as an elevator to find the element with a nested img tag
+            let productCard = priceEl.parentElement;
+            while (productCard && !productCard.querySelector('img[src*="product"]')) {
+                productCard = productCard.parentElement;
+            }
+
+            // 3. Extract everything from inside this specific card
+            const titleEl = productCard.querySelector('.tw-line-clamp-2');
+            const imgEl = productCard.querySelector('img');
 
             return {
-                name: nameEl.innerText.trim(),
-                price: parseFloat(priceEl.innerText.replace(/[^0-9.]/g, '')) 
+                name: titleEl ? titleEl.innerText.trim() : 'Unknown Item',
+                price: parseFloat(priceEl.innerText.replace(/[^0-9.]/g, '')),
+                imageUrl: imgEl ? imgEl.src : '',
+                productLink: window.location.href // Fallback link back to the current search page
             };
         });
         console.log(productData);
