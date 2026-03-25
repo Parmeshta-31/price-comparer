@@ -4,7 +4,7 @@ export async function scrapeBlinkit(searchQuery) {
     let browser;
     try {
         //Puppeteer in headless mode, headless: false for seeing new window and debugging
-        browser = await puppeteer.launch({ headless: "new" });
+        browser = await puppeteer.launch({ headless: false });
         const page = await browser.newPage();
 
         //Deprecated but fallback for safety
@@ -14,28 +14,31 @@ export async function scrapeBlinkit(searchQuery) {
         await page.goto(url, { waitUntil: 'networkidle2' });
         //waitUntil for letting all frameworks load
 
-        await page.waitForSelector('.tw-font-semibold', { timeout: 5000 });
+        await page.waitForSelector('::-p-text(₹)', { timeout: 5000 });
 
         // Extract the first product's name and price
         const productData = await page.evaluate(() => {
-            // These CSS selectors will need to be tweaked based on Blinkit's live HTML
-            const nameEl = document.querySelector('tw-text-300.tw-font-semibold.tw-line-clamp-2');
-            const priceEl = document.querySelector('tw-text-200 tw-font-semibold');
+            // 1. Get the Title: Product cards use 'tw-line-clamp-2' to truncate long text. The dropdown does not.
+            const titleElements = document.querySelectorAll('.tw-line-clamp-2');
+            const nameEl = titleElements[1];
+            
+            // 2. Get the Price: Find all divs on the page, then find the first one that starts with '₹'
+            const allPriceElements = Array.from(document.querySelectorAll('.tw-text-200.tw-font-semibold'));
+            const priceEl = allPriceElements.find(el => el.innerText.includes('₹'));
 
             if (!nameEl || !priceEl) return null;
 
             return {
                 name: nameEl.innerText.trim(),
-                // Strip out the '₹' symbol and convert to a clean number
                 price: parseFloat(priceEl.innerText.replace(/[^0-9.]/g, '')) 
             };
         });
-
+        console.log(productData);
         return productData;
 
     } catch (error) {
         console.error("Scraping failed:", error.message);
-        return null; // Return null if it fails so the server doesn't crash
+        return null;
     } finally {
         if (browser) await browser.close();
     }
