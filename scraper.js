@@ -16,13 +16,12 @@ export async function scrapeBlinkit(searchQuery) {
 
         await page.waitForSelector('::-p-text(₹)', { timeout: 5000 });
 
-        // Extract the first product's name and price
         const productData = await page.evaluate(() => {
-            // 1. Get the Title: Product cards use 'tw-line-clamp-2' to truncate long text. The dropdown does not.
+            // selector for product names
             const titleElements = document.querySelectorAll('.tw-line-clamp-2');
             const nameEl = titleElements[1];
-            
-            // 2. Get the Price: Find all divs on the page, then find the first one that starts with '₹'
+
+            // selector for filtering the price
             const allPriceElements = Array.from(document.querySelectorAll('.tw-text-200.tw-font-semibold'));
             const priceEl = allPriceElements.find(el => el.innerText.includes('₹'));
 
