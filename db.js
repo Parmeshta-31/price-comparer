@@ -2,18 +2,18 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
 
-// 1. Tell dotenv to put on its X-ray glasses and find the .env file
+// configuring dotenv to access DATABASE_URL
 dotenv.config();
 
 const { Pool } = pg;
 
-// 2. Connect to the Neon database using the hidden URL
+// connecting to the database
 export const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false } // Neon requires this setting for secure connections
 });
 
-// 3. A function to auto-create our table when the server starts
+// create the table if it doesn't exist
 export async function initDB() {
     const createTableQuery = `
         CREATE TABLE IF NOT EXISTS product_cache (
@@ -30,8 +30,8 @@ export async function initDB() {
     
     try {
         await pool.query(createTableQuery);
-        console.log("✅ PostgreSQL Connected & Table Ready!");
+        console.log("PostgreSQL Connected & Table Ready!");
     } catch (err) {
-        console.error("❌ Database initialization failed:", err.message);
+        console.error("Database initialization failed:", err.message);
     }
 }
