@@ -16,6 +16,18 @@ app.get("/", (req, res) => {
     res.render("index.ejs");
 })
 
+app.get("/recent", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM product_cache ORDER BY last_updated DESC LIMIT 5");
+
+        // Send the data to a new page called recent.ejs
+        res.render("recent.ejs", { searches: result.rows });
+    } catch (error) {
+        console.error("Error fetching recent searches:", error);
+        res.status(500).send("Database Error");
+    }
+});
+
 app.post("/", async (req, res) => {
     const searchTerm = (req.body.search || "").toLowerCase().trim();
 
