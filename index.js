@@ -18,9 +18,7 @@ app.get("/", (req, res) => {
 
 app.get("/recent", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM product_cache ORDER BY last_updated DESC LIMIT 5");
-
-        // Send the data to a new page called recent.ejs
+        const result = await pool.query("SELECT * FROM product_cache ORDER BY last_updated DESC LIMIT 8");
         res.render("recent.ejs", { searches: result.rows });
     } catch (error) {
         console.error("Error fetching recent searches:", error);
