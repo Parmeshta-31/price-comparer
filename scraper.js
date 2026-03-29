@@ -4,7 +4,7 @@ export async function scrapeBlinkit(searchQuery) {
     let browser;
     try {
         //Puppeteer in headless mode, headless: false for seeing new window and debugging
-        browser = await puppeteer.launch({ headless: "new" });
+        browser = await puppeteer.launch({ headless: false });
         const page = await browser.newPage();
 
         //Deprecated but helps for safety
